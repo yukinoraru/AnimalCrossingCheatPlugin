@@ -11,3 +11,7 @@ void waitKeyUp() {
 		svc_sleepThread(100000000);
 	}
 }
+
+void updateKeyState(){
+	currentKeyState = getKey();
+}

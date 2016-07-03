@@ -9,6 +9,7 @@ void initMenu();
 void addMenuEntry(u8* str);
 void addCheatMenuEntry(u8* str);
 
+int scanMenu();
 u32 updateMenu();
 
 #endif

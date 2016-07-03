@@ -26,6 +26,17 @@ void addCheatMenuEntry(u8* str) {
 	addMenuEntry(buf);
 }
 
+int scanMenu() {
+	u32 i;
+	for (i = 0; i < gamePluginMenu.count; i++) {
+		if (gamePluginMenu.state[i]) {
+			gamePluginMenu.state[i] = 0;
+			return i;
+		}
+	}
+	return -1;
+}
+
 u32 updateMenu() {
 	PLGLOADER_INFO *plgLoaderInfo = (void*)0x07000000;
 	plgLoaderInfo->gamePluginPid = getCurrentProcessId();
