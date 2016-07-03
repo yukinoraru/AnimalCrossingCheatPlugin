@@ -1,98 +1,17 @@
-#include "global.h"
-
-#define WRITEU8(addr, data) *(vu8*)(addr) = data
-#define WRITEU16(addr, data) *(vu16*)(addr) = data
-#define WRITEU32(addr, data) *(vu32*)(addr) = data
+#include "helpers.h"
+#include "menu.h"
 
 u32 threadStack[0x1000];
 Handle fsUserHandle;
 FS_archive sdmcArchive;
 
-
-#define IO_BASE_PAD		1
-#define IO_BASE_LCD		2
-#define IO_BASE_PDC		3
-#define IO_BASE_GSPHEAP		4
-
-u32 IoBasePad = 0xFFFD4000;
-
-u32 getKey() {
-	return (*(vu32*)(IoBasePad) ^ 0xFFF) & 0xFFF;
-}
-
-void waitKeyUp() {
-	while (getKey() != 0) {
-		svc_sleepThread(100000000);
-	}
-}
-
 u8 cheatEnabled[64];
 int isNewNtr = 0;
-
-
-u32 plgGetIoBase(u32 IoType);
-GAME_PLUGIN_MENU gamePluginMenu;
-
-void initMenu() {
-	memset(&gamePluginMenu, 0, sizeof(GAME_PLUGIN_MENU));
-}
-
-void addMenuEntry(u8* str) {
-	if (gamePluginMenu.count > 64) {
-		return;
-	}
-	u32 pos = gamePluginMenu.count;
-	u32 len = strlen(str) + 1;
-	gamePluginMenu.offsetInBuffer[pos] = gamePluginMenu.bufOffset;
-	strcpy(&(gamePluginMenu.buf[gamePluginMenu.bufOffset]), str);
-
-	gamePluginMenu.count += 1;
-	gamePluginMenu.bufOffset += len;
-}
-
-u32 updateMenu() {
-	PLGLOADER_INFO *plgLoaderInfo = (void*)0x07000000;
-	plgLoaderInfo->gamePluginPid = getCurrentProcessId();
-	plgLoaderInfo->gamePluginMenuAddr = (u32)&gamePluginMenu;
-
-	u32 ret = 0;
-	u32 hProcess;
-	u32 homeMenuPid = plgGetIoBase(5);
-	if (homeMenuPid == 0) {
-		return 1;
-	}
-	ret = svc_openProcess(&hProcess, homeMenuPid);
-	if (ret != 0) {
-		return ret;
-	}
-	copyRemoteMemory( hProcess, &(plgLoaderInfo->gamePluginPid), CURRENT_PROCESS_HANDLE,  &(plgLoaderInfo->gamePluginPid), 8);
-	final:
-	svc_closeHandle(hProcess);
-	return ret;
-}
-
-int scanMenu() {
-	u32 i;
-	for (i = 0; i < gamePluginMenu.count; i++) {
-		if (gamePluginMenu.state[i]) {
-			gamePluginMenu.state[i] = 0;
-			return i;
-		}
-	}
-	return -1;
-}
 
 // detect language (0: english)
 int detectLanguage() {
 	// unimplemented
 	return 0;
-}
-
-// add one cheat menu entry
-void addCheatMenuEntry(u8* str) {
-	u8 buf[100];
-	xsprintf(buf, "[ ] %s", str);
-	addMenuEntry(buf);
 }
 
 // this function will be called when the state of cheat item changed
@@ -134,6 +53,17 @@ void freezeCheatValue() {
 // update the menu status
 void updateCheatEnableDisplay(id) {
 	gamePluginMenu.buf[gamePluginMenu.offsetInBuffer[id] + 1] = cheatEnabled[id] ? 'X' : ' ';
+}
+
+int scanMenu() {
+	u32 i;
+	for (i = 0; i < gamePluginMenu.count; i++) {
+		if (gamePluginMenu.state[i]) {
+			gamePluginMenu.state[i] = 0;
+			return i;
+		}
+	}
+	return -1;
 }
 
 // scan and handle events
