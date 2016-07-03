@@ -1,5 +1,6 @@
 #include "helpers.h"
 #include "menu.h"
+#include "acnl_cheats.h"
 
 u32 threadStack[0x1000];
 Handle fsUserHandle;
@@ -9,12 +10,30 @@ u8 cheatEnabled[64];
 int isNewNtr = 0;
 u32 currentKeyState = 0;
 
-//
-void handleCheats(u32 key) {
-	// TODO: handle your own cheat items
-	// if (cheatEnabled[0]) {
-	// 	WRITEU32(0x00720C1C, 0x0F40C3878);
-	// }
+// WARN: strong dependency to initCheatMenu
+// these enums are keys for cheatEnabled array
+enum menuEnum
+{
+	//
+	headerItem,
+		menuDupeItem,
+
+	//
+	headerEnvironment,
+		menuPullingWeeds,
+};
+
+// initalize main menu
+void initCheatMenu() {
+	initMenu();
+
+	addMenuEntry("**ITEM**");
+	addCheatMenuEntry("  dup item: slot1->2");
+
+	addMenuEntry("**ENVIRONMENT**");
+	addCheatMenuEntry("  pulling all weeds");
+
+	updateMenu();
 }
 
 // update the menu status
@@ -22,9 +41,31 @@ void updateCheatEnableDisplay(int id) {
 	gamePluginMenu.buf[gamePluginMenu.offsetInBuffer[id] + 1] = cheatEnabled[id] ? 'X' : ' ';
 }
 
+// core logic
+void handleCheats(u32 key) {
+	//
+	if(cheatEnabled[menuDupeItem]) {
+			if(currentKeyState == BUTTON_R){
+				duplicateItem();
+			}
+	//
+	} else if(cheatEnabled[menuPullingWeeds]) {
+		//TODO:
+	}
+}
+
+//
+void disableCheat(int id)
+{
+	cheatEnabled[id] = false;
+	updateCheatEnableDisplay(id);
+}
+
 // this function will be called when the state of cheat item changed
 void onCheatItemChanged(int id, int enable) {
-	// TODO: handle on cheat item is select or unselected
+	if(id == menuDupeItem && enable == true){
+			disableCheat(menuDupeItem);
+	}
 }
 
 // scan and handle events
@@ -37,22 +78,12 @@ void scanCheatMenu() {
 	}
 }
 
-// init
-void initCheatMenu() {
-	initMenu();
-
-	// TODO :
-	// addMenuEntry("HEADER1")
-	// addCheatMenuEntry("  UHUHU");
-
-	updateMenu();
-}
-
 // entry point
 void gamePluginEntry() {
 	u32 ret, key;
 	INIT_SHARED_FUNC(plgGetIoBase, 8);
 	INIT_SHARED_FUNC(copyRemoteMemory, 9);
+
 	// wait for game starts up (5 seconds)
 	svc_sleepThread(5000000000);
 
@@ -75,6 +106,8 @@ void gamePluginEntry() {
 
 		//
 		updateKeyState();
+
+		// 
 		handleCheats(currentKeyState);
 	}
 }
