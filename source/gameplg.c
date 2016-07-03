@@ -45,7 +45,7 @@ void addMenuEntry(u8* str) {
 	u32 len = strlen(str) + 1;
 	gamePluginMenu.offsetInBuffer[pos] = gamePluginMenu.bufOffset;
 	strcpy(&(gamePluginMenu.buf[gamePluginMenu.bufOffset]), str);
-	
+
 	gamePluginMenu.count += 1;
 	gamePluginMenu.bufOffset += len;
 }
@@ -54,7 +54,7 @@ u32 updateMenu() {
 	PLGLOADER_INFO *plgLoaderInfo = (void*)0x07000000;
 	plgLoaderInfo->gamePluginPid = getCurrentProcessId();
 	plgLoaderInfo->gamePluginMenuAddr = (u32)&gamePluginMenu;
-	
+
 	u32 ret = 0;
 	u32 hProcess;
 	u32 homeMenuPid = plgGetIoBase(5);
@@ -98,16 +98,36 @@ void addCheatMenuEntry(u8* str) {
 // this function will be called when the state of cheat item changed
 void onCheatItemChanged(int id, int enable) {
 	// TODO: handle on cheat item is select or unselected
-	
+
 
 }
 
 // freeze the value
 void freezeCheatValue() {
 	if (cheatEnabled[0]) {
-		WRITEU16(0x082BC33C, 0x0000270F);
+		WRITEU16(0x00720C1C, 0x0F40C3878);
 	}
-	
+	if (cheatEnabled[1]) {
+		WRITEU16(0x00720C20, 0x0F405900);
+	}
+	if (cheatEnabled[2]) {
+		WRITEU16(0x00720CC4, 0x0F40C3878);
+	}
+	if (cheatEnabled[3]) {
+		WRITEU16(0x00720B84, 0x00000014);
+	}
+	if (cheatEnabled[4]) {
+		WRITEU16(0x00720B44, 0x00000014);
+	}
+	if (cheatEnabled[5]) {
+		WRITEU16(0x00720B5C, 0x00000014);
+	}
+	if (cheatEnabled[6]) {
+		WRITEU16(0x00720B94, 0x00000014);
+	}
+	if (cheatEnabled[7]) {
+		WRITEU16(0x00720B64, 0x00000014);
+	}
 	// TODO: handle your own cheat items
 }
 
@@ -126,12 +146,19 @@ void scanCheatMenu() {
 	}
 }
 
-// init 
+// init
 void initCheatMenu() {
 	initMenu();
-	addCheatMenuEntry("Infinite Coins");
+	addCheatMenuEntry("Infinite HP");
+	addCheatMenuEntry("Infinite SP");
+	addCheatMenuEntry("9999 Max HP");
+	addCheatMenuEntry("Max Magic Skill");
+	addCheatMenuEntry("Max Wind Magic");
+	addCheatMenuEntry("Max Earth Magic");
+	addCheatMenuEntry("Max Water Magic");
+	addCheatMenuEntry("Max Fire Magic");
 	// TODO: Add your own menu entries
-	
+
 	updateMenu();
 }
 
@@ -147,7 +174,7 @@ void gamePluginEntry() {
 	} else {
 		isNewNtr = 0;
 	}
-	
+
 	if (isNewNtr) {
 		IoBasePad = plgGetIoBase(IO_BASE_PAD);
 	}
