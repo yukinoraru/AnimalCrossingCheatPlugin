@@ -80,7 +80,6 @@ void scanCheatMenu() {
 
 // entry point
 void gamePluginEntry() {
-	u32 ret, key;
 	INIT_SHARED_FUNC(plgGetIoBase, 8);
 	INIT_SHARED_FUNC(copyRemoteMemory, 9);
 
@@ -107,7 +106,7 @@ void gamePluginEntry() {
 		//
 		updateKeyState();
 
-		// 
+		//
 		handleCheats(currentKeyState);
 	}
 }

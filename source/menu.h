@@ -6,8 +6,8 @@
 extern GAME_PLUGIN_MENU gamePluginMenu;
 
 void initMenu();
-void addMenuEntry(u8* str);
-void addCheatMenuEntry(u8* str);
+void addMenuEntry(char* str);
+void addCheatMenuEntry(char* str);
 
 int scanMenu();
 u32 updateMenu();
