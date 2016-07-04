@@ -38,6 +38,7 @@ void initCheatMenu() {
 
 // update the menu status
 void updateCheatEnableDisplay(int id) {
+	// +1 means inside the checkbox -> [ ]
 	gamePluginMenu.buf[gamePluginMenu.offsetInBuffer[id] + 1] = cheatEnabled[id] ? 'X' : ' ';
 }
 
@@ -68,6 +69,17 @@ void onCheatItemChanged(int id, int enable) {
 	}
 }
 
+int scanMenu() {
+	u32 i;
+	for (i = 0; i < gamePluginMenu.count; i++) {
+		if (gamePluginMenu.state[i]) {
+			gamePluginMenu.state[i] = 0;
+			return i;
+		}
+	}
+	return -1;
+}
+
 // scan and handle events
 void scanCheatMenu() {
 	int ret = scanMenu();
@@ -96,11 +108,13 @@ void gamePluginEntry() {
 		IoBasePad = plgGetIoBase(IO_BASE_PAD);
 	}
 
+	//
 	initCheatMenu();
 
 	while (1) {
 		svc_sleepThread(100000000);
 
+		//
 		scanCheatMenu();
 
 		//

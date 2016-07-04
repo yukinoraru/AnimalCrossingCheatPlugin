@@ -26,17 +26,6 @@ void addCheatMenuEntry(char* str) {
 	addMenuEntry(buf);
 }
 
-int scanMenu() {
-	u32 i;
-	for (i = 0; i < gamePluginMenu.count; i++) {
-		if (gamePluginMenu.state[i]) {
-			gamePluginMenu.state[i] = 0;
-			return i;
-		}
-	}
-	return -1;
-}
-
 u32 updateMenu() {
 	PLGLOADER_INFO *plgLoaderInfo = (void*)0x07000000;
 	plgLoaderInfo->gamePluginPid = getCurrentProcessId();
@@ -55,9 +44,10 @@ u32 updateMenu() {
 		return ret;
 	}
 
-	copyRemoteMemory( hProcess, &(plgLoaderInfo->gamePluginPid), CURRENT_PROCESS_HANDLE,  &(plgLoaderInfo->gamePluginPid), 8);
+	copyRemoteMemory(hProcess, &(plgLoaderInfo->gamePluginPid), CURRENT_PROCESS_HANDLE, &(plgLoaderInfo->gamePluginPid), 8);
 
 	final:
 	svc_closeHandle(hProcess);
+
 	return ret;
 }
