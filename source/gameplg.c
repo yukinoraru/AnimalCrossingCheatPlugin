@@ -32,11 +32,11 @@ int headerIds[] = {
 void initCheatMenu() {
 	initMenu();
 
-	addMenuEntry("**ITEM**");
-	addCheatMenuEntry("  dup item: slot1->2");
+	addMenuEntry("ITEM");
+	addCheatMenuEntry(" dup item: slot1->2");
 
-	addMenuEntry("**ENVIRONMENT**");
-	addCheatMenuEntry("  pulling all weeds");
+	addMenuEntry("ENVIRONMENT");
+	addCheatMenuEntry(" pulling all weeds");
 
 	updateMenu();
 }
@@ -69,9 +69,9 @@ void disableCheat(int id)
 
 // this function will be called when the state of cheat item changed
 void onCheatItemChanged(int id, int enable) {
-	if(id == menuDupeItem && enable == true){
-			disableCheat(menuDupeItem);
-	}
+	// if(id == menuPullingWeeds && enable == true){
+	// 		disableCheat(menuDupeItem);
+	// }
 }
 
 int scanMenu() {
