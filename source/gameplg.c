@@ -23,6 +23,11 @@ enum menuEnum
 		menuPullingWeeds,
 };
 
+int headerIds[] = {
+	headerItem,
+	headerEnvironment,
+};
+
 // initalize main menu
 void initCheatMenu() {
 	initMenu();
@@ -80,10 +85,20 @@ int scanMenu() {
 	return -1;
 }
 
+// return true if id is a header menu
+bool isHeader(int id) {
+	int i;
+	for(i = 0; i < sizeof(headerIds) / sizeof(int); i++){
+		if (headerIds[i] == id)
+			return true;
+	}
+	return false;
+}
+
 // scan and handle events
 void scanCheatMenu() {
 	int ret = scanMenu();
-	if (ret != -1) {
+	if (ret != -1 && !isHeader(ret)) {
 		cheatEnabled[ret] = !cheatEnabled[ret];
 		updateCheatEnableDisplay(ret);
 		onCheatItemChanged(ret, cheatEnabled[ret]);
