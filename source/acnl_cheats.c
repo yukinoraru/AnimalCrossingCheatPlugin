@@ -160,7 +160,140 @@ void waterAllFlowers(){
 
 //
 void growAllTrees(){
+  // define trees (include wilted)
+  u16 trees[] = {
+    // src, replace
+    0x003A, 0x003E, // Apple Tree (Growing 1)
+    0x003B, 0x003E, // Apple Tree (Growing 2)
+    0x003C, 0x003E, // Apple Tree (Growing 3)
+    0x003D, 0x003E, // Apple Tree (Growing 4)
+    0x003E, 0x003E, // Apple Tree
+    0x003F, 0x003F, // Orange Tree (Growing 1)
+    0x0040, 0x003F, // Orange Tree (Growing 2)
+    0x0041, 0x003F, // Orange Tree (Growing 3)
+    0x0042, 0x003F, // Orange Tree (Growing 4)
+    0x0043, 0x003F, // Orange Tree
+    0x0044, 0x0048, // Pear Tree (Growing 1)
+    0x0045, 0x0048, // Pear Tree (Growing 2)
+    0x0046, 0x0048, // Pear Tree (Growing 3)
+    0x0047, 0x0048, // Pear Tree (Growing 4)
+    0x0048, 0x0048, // Pear Tree
+    0x0049, 0x004D, // Peach Tree (Growing 1)
+    0x004A, 0x004D, // Peach Tree (Growing 2)
+    0x004B, 0x004D, // Peach Tree (Growing 3)
+    0x004C, 0x004D, // Peach Tree (Growing 4)
+    0x004D, 0x004D, // Peach Tree
+    0x004E, 0x0052, // Cherry Tree (Growing 1)
+    0x005F, 0x0052, // Cherry Tree (Growing 2)
+    0x0050, 0x0052, // Cherry Tree (Growing 3)
+    0x0051, 0x0052, // Cherry Tree (Growing 4)
+    0x0052, 0x0052, // Cherry Tree
+    0x0005, 0x0039, // Dead Bamboo
+    0x0006, 0x0026, // Dead Tree
+    0x0022, 0x0026, // Tree (Growing 1)
+    0x0023, 0x0026, // Tree (Growing 2)
+    0x0024, 0x0026, // Tree (Growing 3)
+    0x0025, 0x0026, // Tree (Growing 4)
+    0x0026, 0x0026, // Tree
+    0x0027, 0x002B, // cedar (growing 1)
+    0x0028, 0x002B, // cedar (growing 2)
+    0x0029, 0x002B, // cedar (growing 3)
+    0x002A, 0x002B, // cedar (growing 4)
+    0x002B, 0x002B, // cedar
+    0x002C, 0x0030, // coconut palm tree (growing 1)
+    0x002D, 0x0030, // coconut palm tree (growing 2)
+    0x002E, 0x0030, // coconut palm tree (growing 3)
+    0x002F, 0x0030, // coconut palm tree (growing 4)
+    0x0030, 0x0030, // coconut palm tree
+    0x0031, 0x0035, // banana palm tree (growing 1)
+    0x0032, 0x0035, // banana palm tree (growing 2)
+    0x0033, 0x0035, // banana palm tree (growing 3)
+    0x0034, 0x0035, // banana palm tree (growing 4)
+    0x0035, 0x0035, // banana palm tree
+    0x0036, 0x0039, // bamboo (growing 1)
+    0x0037, 0x0039, // bamboo (growing 2)
+    0x0038, 0x0039, // bamboo (growing 3)
+    0x0039, 0x0039, // bamboo
+    0x0053, 0x0057, // durian tree (growing 1)
+    0x0054, 0x0057, // durian tree (growing 2)
+    0x0055, 0x0057, // durian tree (growing 3)
+    0x0056, 0x0057, // durian tree (growing 4)
+    0x0057, 0x0057, // durian tree
+    0x0058, 0x005C, // lemon tree (growing 1)
+    0x0059, 0x005C, // lemon tree (growing 2)
+    0x005A, 0x005C, // lemon tree (growing 3)
+    0x005B, 0x005C, // lemon tree (growing 4)
+    0x005C, 0x005C, // lemon tree
+    0x005D, 0x0061, // lychee tree (growing 1)
+    0x005E, 0x0061, // lychee tree (growing 2)
+    0x005F, 0x0061, // lychee tree (growing 3)
+    0x0060, 0x0061, // lychee tree (growing 4)
+    0x0061, 0x0061, // lychee tree
+    0x0062, 0x0066, // mango tree (growing 1)
+    0x0063, 0x0066, // mango tree (growing 2)
+    0x0064, 0x0066, // mango tree (growing 3)
+    0x0065, 0x0066, // mango tree (growing 4)
+    0x0066, 0x0066, // mango tree
+    0x0067, 0x006B, // persimmons tree (growing 1)
+    0x0068, 0x006B, // persimmons tree (growing 2)
+    0x0069, 0x006B, // persimmons tree (growing 3)
+    0x006A, 0x006B, // persimmons tree (growing 4)
+    0x006B, 0x006B, // persimmons tree
+    0x006C, 0x0070, // money tree (growing 1)
+    0x006D, 0x0070, // money tree (growing 2)
+    0x006E, 0x0070, // money tree (growing 3)
+    0x006F, 0x0070, // money tree (growing 4)
+    0x0070, 0x0070, // money tree
+    0x0080, 0x0082, // holly bush (growing 1)
+    0x0081, 0x0082, // holly bush (growing 2)
+    0x0082, 0x0082, // holly bush
+    0x0083, 0x0085, // pink azalea bush (growing 1)
+    0x0084, 0x0085, // pink azalea bush (growing 2)
+    0x0085, 0x0085, // pink azalea bush
+    0x0086, 0x0088, // white azalea bush (growing 1)
+    0x0087, 0x0088, // white azalea bush (growing 2)
+    0x0088, 0x0088, // white azalea bush
+    0x0089, 0x008B, // blue hydrangea bush (growing 1)
+    0x008A, 0x008B, // blue hydrangea bush (growing 2)
+    0x008B, 0x008B, // blue hydrangea bush
+    0x008C, 0x008E, // pink hydrangea bush (growing 1)
+    0x008D, 0x008E, // pink hydrangea bush (growing 2)
+    0x008E, 0x008E, // pink hydrangea bush
+    0x008F, 0x0091, // red hibiscus bush (growing 1)
+    0x0090, 0x0091, // red hibiscus bush (growing 2)
+    0x0091, 0x0091, // red hibiscus bush
+    0x0092, 0x0094, // yellow hibiscus bush (growing 1)
+    0x0093, 0x0094, // yellow hibiscus bush (growing 2)
+    0x0094, 0x0094, // yellow hibiscus bush
+    0x0095, 0x0097, // sweet olive bush (growing 1)
+    0x0096, 0x0097, // sweet olive bush (growing 2)
+    0x0097, 0x0097, // sweet olive bush
+  };
 
+  int i;
+  u32 address, item;
+
+  // find all items in Town
+  for(address = OFFSET_TOWN_ITEMS; address < OFFSET_TOWN_ITEMS + RANGE_TOWN_ITEMS; address += ITEM_BYTES){
+
+    // READ16 means ignoring any flags
+    item = READU16(address);
+
+    // find trees
+    for(i = 0; i < sizeof(trees) / sizeof(u16); i += 2){
+      if(item == trees[i]){
+        // replace
+        WRITEU16(address, trees[i + 1]);
+
+        // reset fruit flags
+        // 0x0000 = with fruits
+        // 0x0003 = no fruits
+        // 0x0008 = perfect (0)
+        WRITEU16(address + 0x02, 0x0000);
+        break;
+      }
+    }
+  }
 }
 
 //*********************************
