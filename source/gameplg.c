@@ -23,7 +23,9 @@ enum menuEnum
 		menuPullAllWeeds,
 		menuWaterAllFlowers,
 		menuGrowAllTrees,
+		menuPerfectAllFruits,
 
+  //
 	headerPlayer,
 		menuPlayerSpeed,
 
@@ -46,6 +48,7 @@ void initCheatMenu() {
 	addCheatMenuEntry(" pulling all weeds");
 	addCheatMenuEntry(" water all flowers");
 	addCheatMenuEntry(" grow all trees");
+	addCheatMenuEntry(" all fruits to perfect");
 
 	addMenuEntry("PLAYER");
 	addCheatMenuEntry(" super fast dash");
@@ -78,6 +81,15 @@ void handleCheats(u32 key) {
 		if(key == BUTTON_L + BUTTON_B){
 			growAllTrees();
 		}
+
+	//
+	} else if(cheatEnabled[menuPerfectAllFruits]){
+		if(key == (BUTTON_L | BUTTON_A)){
+			//setAllFruitTreesPerfect();
+			waitKeyUp();
+		}
+
+	//
 	} else if(cheatEnabled[menuPlayerSpeed]){
 		if(key == BUTTON_B){
 			setPlayerSpeedFaster();

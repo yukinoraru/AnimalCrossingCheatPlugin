@@ -293,6 +293,39 @@ void growAllTrees(){
         break;
       }
     }
+
+  }
+}
+
+void setAllFruitTreesPerfect(){
+  // define fruit trees
+  static const u16 trees[] = {
+    // src, replace
+    0x003E, // Apple Tree
+    0x0043, // Orange Tree
+    0x0048, // Pear Tree
+    0x004D, // Peach Tree
+    0x0052, // Cherry Tree
+  };
+
+  int i;
+  u32 address, item;
+
+  // find all items in Town
+  for(address = OFFSET_TOWN_ITEMS; address < OFFSET_TOWN_ITEMS + RANGE_TOWN_ITEMS; address += ITEM_BYTES){
+
+    // READ16 means ignoring any flags
+    item = READU16(address);
+
+    // find trees
+    for(i = 0; i < sizeof(trees) / sizeof(u16); i++){
+      if(item == trees[i]){
+        // enable perfect flag
+        WRITEU16(address + 0x02, 0x0808);
+        break;
+      }
+    }
+
   }
 }
 

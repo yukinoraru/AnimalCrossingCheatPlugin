@@ -10,6 +10,7 @@ void duplicateItem();
 void pullAllWeeds();
 void waterAllFlowers();
 void growAllTrees();
+void setAllFruitTreesPerfect();
 
 // PLAYER
 void setPlayerSpeedFaster();
