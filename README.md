@@ -1,35 +1,52 @@
-# AnimalCrossingCheatPlugin
-This plugin for NTR CFW adds funny features to Animal Crossing New Leaf.
+# Animal Crossing Cheat Plugin
+This plugin for NTR CFW (3.3) adds funny features to Animal Crossing New Leaf.
+
+## Requirements
+- NTR CFW 3.3
+- Animal Crossing New Leaf
+  - Revision 1.1
+  - Only japanese version (CTR-EGDJ, BCF0AFF4)
 
 ## Cheats
+| Category      | Cheats                   | Key     |
+| ------------- |:------------------------:| -------:|
+| ITEMS         | duplicate item           | `R`     |
+| ENVIRONMENT   | pulling all weeds        | `L + X` |
+| ENVIRONMENT   | water all flowers        | `L + Y` |
+| ENVIRONMENT   | grow all trees           | `L + B` |
+| ENVIRONMENT   | all fruits to perfect    | `L + A` |
+| PLAYER        | super fast dash          | `B`     |
+
+
+### ITEMS
+- duplicate item
+  - While pressing `R` button to copy slot 1 item to slot 2.
+
+### ENVIRONMENT
+- pulling all weeds
+  - press `L + X`, all weeds (include clovers, rafflesia, etc..) go away
+- water all flowers
+  - press `L + Y`, all flowers quenched and wilted one will be revived.
+- grow all trees
+  - press `L + B`, all young plants to adult trees.
+- all fruits to perfect
+  - press `L + A`, all normal fruit tress (apple, orange, pear, peach, cherry) to perfect trees.
+
+### PLAYER
+- super fast b-dash (WIP)
 
 ## Installation
+1. build or download `cheat.plg`
+2. copy `cheat.plg` to `\SD ROOT\plugins\0004000000086200\cheat.plg`
 
 ## Development
-execute build.bat, then you'll get `cheat.plg` in current dir.
+1. install ARM devkit & python 2.7
+2. execute build.bat, then you'll get `cheat.plg` in current dir.
 
-## Memo
+## Credits
+- https://github.com/RyDog199/ACNL-NTR-Cheats
+- https://github.com/SirBeethoven/LeafHacks
+- https://github.com/kwsch/NLSE
 
-### アイテム欄
-アイテム欄1	160562d0
-アイテム欄2	160562d4
-アイテム欄3	160562d8
-アイテム欄4	160562dc
-アイテム欄5	160562e0
-アイテム欄6	160562e4
-アイテム欄7	160562e8
-アイテム欄8	160562ec
-アイテム欄9	160562f0
-アイテム欄10	160562f4
-アイテム欄11	160562f8
-アイテム欄12	160562fc
-アイテム欄13	16056300
-アイテム欄14	16056304
-アイテム欄15	16056308
-アイテム欄16	1605630c
-
-アイテム欄最後を９９，０００ベルへ
-write(0x1605630c, (0x12, 0x21), pid=0x29)
-
-
-## Creadits
+## Wiki
+https://github.com/yukinoraru/AnimalCrossingCheatPlugin/wiki
