@@ -335,5 +335,16 @@ void setAllFruitTreesPerfect(){
 
 //
 void setPlayerSpeedFaster(){
+  const u32 defaultVelocity = 0x41A79DB3;
+  const u32 currentVelocityAddress = 0x1736AA3C;
 
+  u32 currentVelocity  = READU32(currentVelocityAddress);
+
+  //
+  if(currentVelocity > defaultVelocity){
+    WRITEU32(currentVelocityAddress, defaultVelocity);
+  }
+  else if(currentVelocity > 0){
+    WRITEU32(currentVelocityAddress, currentVelocity + 0x00100000);
+  }
 }
