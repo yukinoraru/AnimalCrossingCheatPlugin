@@ -300,7 +300,6 @@ void growAllTrees(){
 void setAllFruitTreesPerfect(){
   // define fruit trees
   static const u16 trees[] = {
-    // src, replace
     0x003E, // Apple Tree
     0x0043, // Orange Tree
     0x0048, // Pear Tree

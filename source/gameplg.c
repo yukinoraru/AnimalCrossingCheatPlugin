@@ -7,10 +7,8 @@ Handle fsUserHandle;
 FS_archive sdmcArchive;
 
 u8 cheatEnabled[64];
-int isNewNtr = 0;
 u32 currentKeyState = 0;
 
-// WARN: strong dependency to initCheatMenu
 // these enums are keys for cheatEnabled array
 enum menuEnum
 {
@@ -31,7 +29,7 @@ enum menuEnum
 
 };
 
-int headerIds[] = {
+int menuHeaderIds[] = {
 	headerItem,
 	headerEnvironment,
 	headerPlayer,
@@ -69,23 +67,32 @@ void handleCheats(u32 key) {
 		if(key == BUTTON_R){
 			duplicateItem();
 		}
+
+	//
 	} else if(cheatEnabled[menuPullAllWeeds]) {
-		if(key == BUTTON_L + BUTTON_X){
+		if(key == (BUTTON_L | BUTTON_X)){
 			pullAllWeeds();
+			waitKeyUp();
 		}
+
+	//
 	} else if(cheatEnabled[menuWaterAllFlowers]){
-		if(key == BUTTON_L + BUTTON_Y){
+		if(key == (BUTTON_L | BUTTON_Y)){
 			waterAllFlowers();
+			waitKeyUp();
 		}
+
+	//
 	} else if(cheatEnabled[menuGrowAllTrees]){
-		if(key == BUTTON_L + BUTTON_B){
+		if(key == (BUTTON_L | BUTTON_B)){
 			growAllTrees();
+			waitKeyUp();
 		}
 
 	//
 	} else if(cheatEnabled[menuPerfectAllFruits]){
 		if(key == (BUTTON_L | BUTTON_A)){
-			//setAllFruitTreesPerfect();
+			setAllFruitTreesPerfect();
 			waitKeyUp();
 		}
 
@@ -95,6 +102,7 @@ void handleCheats(u32 key) {
 			setPlayerSpeedFaster();
 		}
 	}
+
 }
 
 //
@@ -123,10 +131,10 @@ int scanMenu() {
 }
 
 // return true if id is a header menu
-bool isHeader(int id) {
+bool isHeaderMenu(int id) {
 	int i;
-	for(i = 0; i < sizeof(headerIds) / sizeof(int); i++){
-		if (headerIds[i] == id)
+	for(i = 0; i < sizeof(menuHeaderIds) / sizeof(int); i++){
+		if (menuHeaderIds[i] == id)
 			return true;
 	}
 	return false;
@@ -135,15 +143,20 @@ bool isHeader(int id) {
 // scan and handle events
 void scanCheatMenu() {
 	int ret = scanMenu();
-	if (ret != -1 && !isHeader(ret)) {
+
+	if (ret != -1 && !isHeaderMenu(ret)) {
 		cheatEnabled[ret] = !cheatEnabled[ret];
+
 		updateCheatEnableDisplay(ret);
+
 		onCheatItemChanged(ret, cheatEnabled[ret]);
 	}
 }
 
 // entry point
 void gamePluginEntry() {
+	int isNewNtr;
+
 	INIT_SHARED_FUNC(plgGetIoBase, 8);
 	INIT_SHARED_FUNC(copyRemoteMemory, 9);
 
