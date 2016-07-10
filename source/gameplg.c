@@ -16,16 +16,23 @@ enum menuEnum
 {
 	//
 	headerItem,
-		menuDupeItem,
+		menuDuplicateItem,
 
 	//
 	headerEnvironment,
-		menuPullingWeeds,
+		menuPullAllWeeds,
+		menuWaterAllFlowers,
+		menuGrowAllTrees,
+
+	headerPlayer,
+		menuPlayerSpeed,
+
 };
 
 int headerIds[] = {
 	headerItem,
 	headerEnvironment,
+	headerPlayer,
 };
 
 // initalize main menu
@@ -33,10 +40,15 @@ void initCheatMenu() {
 	initMenu();
 
 	addMenuEntry("ITEM");
-	addCheatMenuEntry(" dup item: slot1->2");
+	addCheatMenuEntry(" dup item: slot1 -> 2");
 
 	addMenuEntry("ENVIRONMENT");
 	addCheatMenuEntry(" pulling all weeds");
+	addCheatMenuEntry(" water all flowers");
+	addCheatMenuEntry(" grow all trees");
+
+	addMenuEntry("PLAYER");
+	addCheatMenuEntry(" super fast dash");
 
 	updateMenu();
 }
@@ -50,13 +62,26 @@ void updateCheatEnableDisplay(int id) {
 // core logic
 void handleCheats(u32 key) {
 	//
-	if(cheatEnabled[menuDupeItem]) {
-			if(currentKeyState == BUTTON_R){
-				duplicateItem();
-			}
-	//
-	} else if(cheatEnabled[menuPullingWeeds]) {
-		//TODO:
+	if(cheatEnabled[menuDuplicateItem]) {
+		if(key == BUTTON_R){
+			duplicateItem();
+		}
+	} else if(cheatEnabled[menuPullAllWeeds]) {
+		if(key == BUTTON_L + BUTTON_X){
+			pullAllWeeds();
+		}
+	} else if(cheatEnabled[menuWaterAllFlowers]){
+		if(key == BUTTON_L + BUTTON_Y){
+			waterAllFlowers();
+		}
+	} else if(cheatEnabled[menuGrowAllTrees]){
+		if(key == BUTTON_L + BUTTON_B){
+			growAllTrees();
+		}
+	} else if(cheatEnabled[menuPlayerSpeed]){
+		if(key == BUTTON_B){
+			setPlayerSpeedFaster();
+		}
 	}
 }
 
@@ -69,8 +94,8 @@ void disableCheat(int id)
 
 // this function will be called when the state of cheat item changed
 void onCheatItemChanged(int id, int enable) {
-	// if(id == menuPullingWeeds && enable == true){
-	// 		disableCheat(menuDupeItem);
+	// if(id == menuPullAllWeeds && enable == true){
+	// 		disableCheat(menuDuplicateItem);
 	// }
 }
 

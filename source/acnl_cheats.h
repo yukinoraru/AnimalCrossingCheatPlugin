@@ -3,6 +3,15 @@
 
 #include "helpers.h"
 
+// ITEM
 void duplicateItem();
+
+// ENVIRONMENT
+void pullAllWeeds();
+void waterAllFlowers();
+void growAllTrees();
+
+// PLAYER
+void setPlayerSpeedFaster();
 
 #endif
