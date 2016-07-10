@@ -18,7 +18,7 @@ void duplicateItem(){
 //
 void pullAllWeeds(){
   // define weeds
-  u32 weeds[] = {
+  static const u32 weeds[] = {
     0x0000007C, // Weed 1
     0x0000007D, // Weed 2
     0x0000007E, // Weed 3
@@ -50,7 +50,7 @@ void pullAllWeeds(){
 //
 void waterAllFlowers(){
   // define flowers (include wilted)
-  u16 flowers[] = {
+  static const u16 flowers[] = {
     // src, replace
     0x009F, 0x009F, // Red Tulips
     0x00A0, 0x00A0, // White Tulips
@@ -160,8 +160,8 @@ void waterAllFlowers(){
 
 //
 void growAllTrees(){
-  // define trees (include wilted)
-  u16 trees[] = {
+  // define trees
+  static const u16 trees[] = {
     // src, replace
     0x003A, 0x003E, // Apple Tree (Growing 1)
     0x003B, 0x003E, // Apple Tree (Growing 2)
