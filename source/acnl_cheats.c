@@ -168,11 +168,11 @@ void growAllTrees(){
     0x003C, 0x003E, // Apple Tree (Growing 3)
     0x003D, 0x003E, // Apple Tree (Growing 4)
     0x003E, 0x003E, // Apple Tree
-    0x003F, 0x003F, // Orange Tree (Growing 1)
-    0x0040, 0x003F, // Orange Tree (Growing 2)
-    0x0041, 0x003F, // Orange Tree (Growing 3)
-    0x0042, 0x003F, // Orange Tree (Growing 4)
-    0x0043, 0x003F, // Orange Tree
+    0x003F, 0x0043, // Orange Tree (Growing 1)
+    0x0040, 0x0043, // Orange Tree (Growing 2)
+    0x0041, 0x0043, // Orange Tree (Growing 3)
+    0x0042, 0x0043, // Orange Tree (Growing 4)
+    0x0043, 0x0043, // Orange Tree
     0x0044, 0x0048, // Pear Tree (Growing 1)
     0x0045, 0x0048, // Pear Tree (Growing 2)
     0x0046, 0x0048, // Pear Tree (Growing 3)
